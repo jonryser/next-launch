@@ -9,6 +9,9 @@
 /coverage
 /playwright-report/
 
+# yarn
+.yarn*
+
 # next.js
 /.next/
 /out/
@@ -47,3 +50,6 @@ yarn-error.log*
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# A folder to hold files in the project that won't be committed (local notes, etc)
+no_commit/

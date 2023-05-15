@@ -1,10 +1,9 @@
 import { favicon } from 'client.config'
-import { backgroundColor, defaultMetaTitle } from 'client.config'
+import { defaultMetaTitle } from 'client.config'
 import { Provider } from 'hooks-for-redux'
 import LogRocket from 'logrocket'
 import { SessionProvider } from 'next-auth/react'
 import type { AppProps } from 'next/app'
-import Head from 'next/head'
 import { useEffect } from 'react'
 import { QueryClientProvider } from 'react-query'
 import { ToastContainer } from 'react-toastify'
@@ -14,30 +13,32 @@ import { IdleTimer } from 'common/IdleTimer'
 import { RoleManager } from 'common/RoleManager'
 import 'styles/globals.scss'
 import '../store'
+import Head from './../components/partials/Head'
+// Content.
+import { pageTags } from './../utils/constants'
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function CustomApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 	useEffect(() => {
 		if (process.env.NEXT_PUBLIC_ENV === 'staging') {
 			LogRocket.init('eog9r1/test-logrocket')
 		}
 	}, [])
 
+	const headData = {
+		link: [
+			{
+				href: favicon,
+				rel: 'shortcut icon',
+				size: 'any',
+				type: 'image/svg+xml'
+			}
+		],
+		title: defaultMetaTitle
+	}
+
 	return (
 		<>
-			<Head>
-				<link rel='shortcut icon' href={favicon} />
-
-				{defaultMetaTitle && <title>{defaultMetaTitle}</title>}
-
-				{/* TODO: Handle common meta data here */}
-				<meta name='viewport' content='initial-scale=1.0, width=device-width' />
-				{/*
-				 	Style added here to set the background color based on the client config within tailwind's configuration settings.
-					Due to this projects choice to use module.scss there isn't anywhere in the style sheets to import a js module. 
-				  */}
-				<style>{`html { background-color: ${backgroundColor} !important; }`}</style>
-			</Head>
-
+			<Head data={headData} default={pageTags} root={''} />
 			<Provider>
 				<SessionProvider session={session} refetchInterval={5}>
 					<QueryClientProvider client={reactQueryClient}>
@@ -53,4 +54,4 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
 	)
 }
 
-export default MyApp
+export default CustomApp

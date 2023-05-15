@@ -1,44 +1,41 @@
 version: '3.8'
 
 services:
-  # Database container
-  db:
-    restart: always
-    image: postgres:14.2-alpine
-    container_name: db
-    ports:
-      - 5432:5432
-    networks:
-      - docker_network
-    environment:
-      NODE_ENV: production
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: docker
-    command: ['postgres', '-c', 'log_statement=all', '-c', 'log_destination=stderr']
-    volumes:
-      - dbvol:/var/lib/postgresql/data:delegated
-
   # Application container
   web-app:
-    image: node:16.13.0
-    container_name: web-app
-    # Install dependencies only when needed
+    env_file: ${DOT_ENV_FILE:-.env}
+    # Ensure specific environment variables are ALWAYS available.
     environment:
-      NODE_ENV: production
-      NEXT_PUBLIC_ENV: production
-      DATABASE_URL: 'postgresql://postgres:docker@db:5432/todo-db?schema=public&connect_timeout=300'
-      NEXT_SHARP_PATH: /app/node_modules/sharp
-    build: .
+      # Server
+      - BASE_URL=${BASE_URL:-${SERVER_PROTOCOL:-http}://${SERVER_DOMAIN:-localhost}:${SERVER_PORT:-3000}}
+      - DB_URL=${DB_URL:-postgresql://postgres:docker@host.docker.internal:5432/my_db_dev?schema=public&connect_timeout=300}
+      - NEXT_PUBLIC_ENV=${NEXT_PUBLIC_ENV:-development}
+      - NEXT_SHARP_PATH=${NEXT_SHARP_PATH:-/app/node_modules/sharp}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET:-DEVELOPMENT}
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:${SERVER_PORT:-3000}}
+      - NODE_ENV=${NODE_ENV:-development}
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        nodeVersion: ${NODE_VERSION:-20.1.0}
+    container_name: ${CONTAINER_NAME:-next-launch}
+    image: ${IMAGE_NAME:-${CONTAINER_NAME:-next-launch}}:${IMAGE_TAG:-dev}
+    command:
+      - "sh"
+      - "-c"
+      - "if [ ${NO_AUTO_START:-} ]; then tail -f /dev/null; else node /app/server.js; fi"
     ports:
-      - 3000:3000
-    networks:
-      - docker_network
-    depends_on:
-      - db
+      - ${SERVER_PORT:-3000}:${SERVER_PORT:-3000}
+    volumes:
+      - .:/app:delegated
+      - ~/.gitconfig:/root/.gitconfig:delegated
+      - ~/.ssh:/root/.ssh:delegated
+      - next-launch-dev-root-vol:/root:delegated
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
-  dbvol:
-
-networks:
-  docker_network:
-    name: docker_network
+  next-launch-dev-root-vol:
