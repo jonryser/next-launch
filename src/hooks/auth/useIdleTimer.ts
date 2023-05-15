@@ -1,7 +1,7 @@
 import { signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { maxAge } from 'utils/constants'
+import { MAX_AGE } from 'utils/constants'
 import { throttle } from 'utils/throttle'
 import { useCurrentUser } from 'hooks/api/users/useCurrentUser'
 
@@ -22,7 +22,7 @@ const useIdleTimer = () => {
 	const createIdleInterval = () =>
 		setInterval(() => {
 			const expirationTime = parseInt(
-				localStorage.getItem(localStorageExpTimeName) || (Date.now() + 1000 * maxAge).toString()
+				localStorage.getItem(localStorageExpTimeName) || (Date.now() + 1000 * MAX_AGE).toString()
 			)
 
 			if (expirationTime < Date.now()) {
@@ -32,7 +32,7 @@ const useIdleTimer = () => {
 		}, 500)
 
 	const setExpTimeInLocalStorage = () => {
-		localStorage.setItem(localStorageExpTimeName, (Date.now() + 1000 * maxAge).toString())
+		localStorage.setItem(localStorageExpTimeName, (Date.now() + 1000 * MAX_AGE).toString())
 	}
 
 	const trackActivity = (listener: () => void) => {

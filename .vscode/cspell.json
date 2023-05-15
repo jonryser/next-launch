@@ -1,0 +1,27 @@
+{
+    "version": "0.2",
+    "language": "en",
+    "words": [
+        "autogenerate",
+        "datetime",
+        "dockerized",
+        "guid",
+        "guids",
+        "healthcheck",
+        "imei",
+        "jsonb",
+        "metacharacter",
+        "mkdir",
+        "nextjs",
+        "postgres",
+        "queryable",
+        "referer",
+        "repo",
+        "rssi",
+        "unprocessable",
+        "upsert",
+        "varchar",
+        "zipcode"
+    ],
+    "flagWords": []
+}

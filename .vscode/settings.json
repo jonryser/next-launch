@@ -1,4 +1,6 @@
 {
+	// Turn this on to run tests in "watch" mode on launch.
+	"jest.autoRun": "off",
 	"search.exclude": {
 		".next": true
 	}

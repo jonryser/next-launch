@@ -6,7 +6,7 @@ import NextAuth from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { Credentials } from 'types/Credentials'
 import { prisma } from 'utils/api/prisma'
-import { maxAge } from 'utils/constants'
+import { MAX_AGE } from 'utils/constants'
 
 export default NextAuth({
 	adapter: PrismaAdapter(prisma),
@@ -25,7 +25,7 @@ export default NextAuth({
 		strategy: 'jwt',
 
 		// Seconds - How long until an idle session expires and is no longer valid.
-		maxAge
+		maxAge: MAX_AGE
 	},
 	providers: [
 		CredentialsProvider({

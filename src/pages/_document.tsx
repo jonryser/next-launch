@@ -1,15 +1,20 @@
-import Document, { Head, Html, Main, NextScript } from 'next/document'
+import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document'
 
-class CustomDocument extends Document {
+/**
+ *  _document is only rendered on the server side and not on the client side
+ * Event handlers like onClick can't be added to this file.
+ */
+
+export default class CustomDocument extends Document {
+	static async getInitialProps(ctx: DocumentContext) {
+		const initialProps = await Document.getInitialProps(ctx)
+		return { ...initialProps }
+	}
+
 	render() {
 		return (
-			<Html>
-				<Head>
-					<link
-						href='https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=optional'
-						rel='stylesheet'
-					></link>
-				</Head>
+			<Html lang={`en`}>
+				<Head />
 				<body>
 					<Main />
 					<NextScript />
@@ -18,5 +23,3 @@ class CustomDocument extends Document {
 		)
 	}
 }
-
-export default CustomDocument
