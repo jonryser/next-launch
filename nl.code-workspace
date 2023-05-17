@@ -4,5 +4,22 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"cSpell.enableFiletypes": ["dockercompose", "dockerfile"],
+		"editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+		"editor.formatOnSave": true,
+		"files.associations": {
+		  "*.dockerignore": "ignore",
+		  ".env-*": "dotenv",
+		  "Dockerfile-*": "dockerfile"
+		},
+		"files.eol": "\n",
+		"[typescriptreact]": {
+		  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+		},
+		"[typescript]": {
+		  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+		},
+		"workbench.editor.highlightModifiedTabs": true
+	}
 }
