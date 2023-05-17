@@ -1,7 +1,8 @@
 export default interface HeadProps {
-	data: HeadData
-	default?: PageTags
-	root: string
+	children?: JSX.Element
+	data?: HeadData
+	defaultTags?: PageTags
+	root?: string
 }
 
 // NOTE: This interface should include all and only data that is being passed into the component
