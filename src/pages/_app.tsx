@@ -38,7 +38,7 @@ function CustomApp({ Component, pageProps: { session, ...pageProps } }: AppProps
 
 	return (
 		<>
-			<Head data={headData} default={pageTags} root={''} />
+			<Head data={headData} defaultTags={pageTags} />
 			<Provider>
 				<SessionProvider session={session} refetchInterval={5}>
 					<QueryClientProvider client={reactQueryClient}>
