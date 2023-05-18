@@ -14,28 +14,25 @@ Please do not email vercel for enforcement. You can email this project's owner's
 
 To get started with contributing to this project, fork the repository, clone the project into your environment, make your desired changes and submit a pull request to the development branch.
 
-See the [development getting started guide](./DEVELOPMENT.md#getting-started) to get the project running in your local environment. 
+See the [development getting started guide](./DEVELOPMENT.md#getting-started) to get the project running in your local environment.
 
 ## Making a Pull Request
 
 Naming conventions for pull request branches are as follows.
 
-```bash
+```txt
 feature/<branch-name> # New features
 
-
 refactor/<branch-name> # Changes to currently existing features
-
 
 fix/<branch-name> # Bug fixes and hot patches
 ```
 
-
 ## Commit message format
 
-Use the [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) format when writing commit messages. 
+Use the [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) format when writing commit messages.
 
-```
+```txt
 <type>[optional scope][optional `!` for breaking changes]: <description>
 
 [optional body]
@@ -47,14 +44,14 @@ Use the [Conventional Commit](https://www.conventionalcommits.org/en/v1.0.0/) fo
 
 A good feature commit message
 
-```
+```txt
 feat: allow provided config object to extend other configs
 ```
 
 A good commit message with scope and `!` to draw attention to breaking changes
 
-```
-fix(api)!: add api key support to prevent security vulnerability 
+```txt
+fix(api)!: add api key support to prevent security vulnerability
 
 BREAKING CHANGE: introduce a request id and a reference to latest request
 ```
