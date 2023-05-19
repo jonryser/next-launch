@@ -3954,15 +3954,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/csvtojson@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@types/csvtojson@npm:2.0.0"
-  dependencies:
-    csvtojson: "*"
-  checksum: 0bde08db93716babf688085b57def1ce0ebc5d9ceddf20281efb6e7fc4cf9b53c1697fc0c506be7214887e4d1bb306d59029ecdff3ce935070e76860b9e3d66f
-  languageName: node
-  linkType: hard
-
 "@types/dropzone@npm:^5.7.4":
   version: 5.7.4
   resolution: "@types/dropzone@npm:5.7.4"
@@ -7163,7 +7154,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csvtojson@npm:*, csvtojson@npm:^2.0.10":
+"csvtojson@npm:^2.0.10":
   version: 2.0.10
   resolution: "csvtojson@npm:2.0.10"
   dependencies:
@@ -11705,7 +11696,6 @@ __metadata:
     "@trivago/prettier-plugin-sort-imports": ^3.2.0
     "@types/bcrypt": ^5.0.0
     "@types/bcryptjs": ^2.4.2
-    "@types/csvtojson": ^2.0.0
     "@types/dropzone": ^5.7.4
     "@types/jest": ^27.4.1
     "@types/json2csv": ^5.0.3
