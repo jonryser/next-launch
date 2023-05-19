@@ -54,6 +54,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ vars.NODE_VERSION || 'latest' }}
+          cache: 'yarn'
 
       - name: Install dependencies
         run: |
@@ -65,7 +66,8 @@ jobs:
           version=$(yarn --version)
           requested_version=${{ vars.YARN_VERSION || 'latest' }}
 
-          yarn set version ${requested_version}}
+          yarn set version ${requested_version}
+          yarn plugin import @yarnpkg/plugin-workspace-tools
 
           echo "::group::Yarn version"
           echo 'initial yarn version: ${version}'
