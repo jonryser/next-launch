@@ -14,7 +14,13 @@ jobs:
       env_name: ${{ steps.environment.outputs.name }}
     steps:
       - name: Get target branch
-        run: echo "branch=${{ github.event.pull_request.base.ref }}" >> $GITHUB_OUTPUT
+        run: |
+          branch=${{ github.event.pull_request.base.ref }}
+          echo "branch=${branch}" >> $GITHUB_OUTPUT
+
+          echo "::group::Bramch"
+          echo 'environment: ${branch}'
+          echo "::endgroup::"
         id: target_branch
 
       - name: Get environment
@@ -25,6 +31,10 @@ jobs:
             env=prod
           fi
           echo "name=${env}" >> $GITHUB_OUTPUT
+
+          echo "::group::Environment"
+          echo 'environment: ${env}'
+          echo "::endgroup::"
         id: environment
 
   test:
@@ -47,16 +57,23 @@ jobs:
 
       - name: Install dependencies
         run: |
-          echo "::group::Yarn initial version"
-          echo 'environment: ${{ needs.info.outputs.env_name }}'
-          echo 'yarn version: $(echo yarn --version)'
+          echo "::group::Node version"
+          echo 'node versionrequested: ${{ vars.NODE_VERSION || 'latest' }}'
+          echo 'node version: '$(node --version)
           echo "::endgroup::"
 
-          yarn set version ${{ vars.YARN_VERSION || 'latest' }}
+          version=$(yarn --version)
+          requested_version=${{ vars.YARN_VERSION || 'latest' }}
 
-          echo "::group::Yarn updated version"
-          echo 'update yarn: ${{ vars.YARN_VERSION || 'latest' }}'
-          echo 'updated yarn version: $(echo yarn --version)'
+          if [ "${version}" != "${requested_version}"]
+          then
+            yarn set version ${requested_version}}
+          fi
+
+          echo "::group::Yarn version"
+          echo 'initial yarn version: ${version}'
+          echo 'yarn version requested: ${requested_version}}'
+          echo 'yarn version: '$(yarn --version)
           echo "::endgroup::"
 
           yarn
