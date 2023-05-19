@@ -58,7 +58,7 @@ jobs:
       - name: Setup Node JS
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ vars.NODE_VERSION || "latest" }}
+          node-version: ${{ vars.NODE_VERSION || latest }}
 
       - name: Install dependencies
         run: |
