@@ -71,7 +71,7 @@ jobs:
 
           echo "::group::Yarn version"
           echo 'initial yarn version: '${version}
-          echo 'yarn version requested: '${requested_version}}
+          echo 'yarn version requested: '${requested_version}
           echo 'yarn version: '$(yarn --version)
           echo "::endgroup::"
 
