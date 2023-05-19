@@ -19,10 +19,10 @@ jobs:
 
       - name: Get environment
         run: |
-          env = "dev"
+          env="dev"
           if [ "${{ steps.target_branch.outputs.name }}" = "main" ]
           then
-            env = prod
+            env="prod"
           fi
           echo "name=environment" >> "${env}"
         id: environment
