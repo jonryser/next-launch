@@ -1,0 +1,91 @@
+name: Run All Tests
+on:
+  pull_request:
+    branches: [develop, staging]
+    types: [opened, reopened, synchronize]
+  workflow_dispatch:
+jobs:
+  info:
+    name: Gather info for jobs
+    timeout-minutes: 1
+    runs-on: ubuntu-latest
+    outputs:
+      branch: ${{ steps.target_branch.outputs.branch }}
+      env_name: ${{ steps.environment.outputs.name }}
+    steps:
+      - name: Get target branch
+        run: |
+          branch=${{ github.event.pull_request.base.ref }}
+          echo "branch=${branch}" >> $GITHUB_OUTPUT
+
+          echo "::group::Bramch"
+          echo 'environment: '${branch}
+          echo "::endgroup::"
+        id: target_branch
+
+      - name: Get environment
+        run: |
+          env=dev
+          if [ "${{ steps.target_branch.outputs.name }}" = "main" ]
+          then
+            env=prod
+          fi
+          echo "name=${env}" >> $GITHUB_OUTPUT
+
+          echo "::group::Environment"
+          echo 'environment: '${env}
+          echo "::endgroup::"
+        id: environment
+
+  test:
+    name: Lint and test
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    needs: [info]
+    environment:
+      name: ${{ needs.info.outputs.env_name }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node JS
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ vars.NODE_VERSION || 'latest' }}
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: |
+          echo "::group::Node version"
+          echo 'node version requested: ${{ vars.NODE_VERSION || 'latest' }}'
+          echo 'node version: '$(node --version)
+          echo "::endgroup::"
+
+          version=$(yarn --version)
+          requested_version=${{ vars.YARN_VERSION || 'latest' }}
+
+          yarn set version ${requested_version}
+          yarn plugin import @yarnpkg/plugin-workspace-tools
+
+          echo "::group::Yarn version"
+          echo 'initial yarn version: '${version}
+          echo 'yarn version requested: '${requested_version}}
+          echo 'yarn version: '$(yarn --version)
+          echo "::endgroup::"
+
+          yarn
+
+      - name: Lint project
+        run: yarn lint
+
+      # TODO: fix playwright tests and add back into gh actions
+      # - name: Install Playwright
+      #   run: npx playwright install --with-deps
+
+      - name: Run Jest
+        run: yarn test:unit
+
+      # - name: Run Playwright tests
+      #   run: yarn test:e2e
