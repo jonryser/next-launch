@@ -19,7 +19,7 @@ jobs:
           echo "branch=${branch}" >> $GITHUB_OUTPUT
 
           echo "::group::Bramch"
-          echo 'environment: ${branch}'
+          echo 'environment: '${branch}
           echo "::endgroup::"
         id: target_branch
 
@@ -33,7 +33,7 @@ jobs:
           echo "name=${env}" >> $GITHUB_OUTPUT
 
           echo "::group::Environment"
-          echo 'environment: ${env}'
+          echo 'environment: '${env}
           echo "::endgroup::"
         id: environment
 
@@ -70,21 +70,22 @@ jobs:
           yarn plugin import @yarnpkg/plugin-workspace-tools
 
           echo "::group::Yarn version"
-          echo 'initial yarn version: ${version}'
-          echo 'yarn version requested: ${requested_version}}'
+          echo 'initial yarn version: '${version}
+          echo 'yarn version requested: '${requested_version}}
           echo 'yarn version: '$(yarn --version)
           echo "::endgroup::"
 
           yarn
 
       - name: Lint project
-        run: npm run lint
+        run: yarn lint
 
       # TODO: fix playwright tests and add back into gh actions
       # - name: Install Playwright
       #   run: npx playwright install --with-deps
 
       - name: Run Jest
-        run: npm run test:unit
+        run: yarn test:unit
+
       # - name: Run Playwright tests
-      #   run: npm run test:e2e
+      #   run: yarn test:e2e
