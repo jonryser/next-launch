@@ -14,18 +14,17 @@ jobs:
       env_name: ${{ steps.environment.outputs.name }}
     steps:
       - name: Get target branch
-        run: echo "##[set-output name=branch;]$(echo ${{ github.event.pull_request.base.ref }})"
+        run: echo "name=branch" >> ${{ github.event.pull_request.base.ref }}
         id: target_branch
 
       - name: Get environment
         run: |
-          branch = ${{ github.event.pull_request.base.ref }}
           env = dev
-          if [ "${branch}" = "main" ]
+          if [ "${{ steps.target_branch.outputs.name }}" = "main" ]
           then
             env = prod
           fi
-          echo "##[set-output name=branch;]$(echo ${env})"
+          echo "name=environment" >> ${env}
         id: environment
 
   test:
@@ -35,21 +34,6 @@ jobs:
     environment:
       name: ${{ needs.info.outputs.env_name }}
     steps:
-      - name: Get target branch
-        run: echo "##[set-output name=branch;]$(echo ${{ github.event.pull_request.base.ref }})"
-        id: target_branch
-
-      - name: Get environment
-        run: |
-          branch = ${{ github.event.pull_request.base.ref }}
-          env = dev
-          if [ "${branch}" = "main" ]
-          then
-            env = prod
-          fi
-          echo "##[set-output name=branch;]$(echo ${env})"
-        id: environment
-
       - name: Checkout code
         uses: actions/checkout@v3
         with:
