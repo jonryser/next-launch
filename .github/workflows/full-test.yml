@@ -58,13 +58,13 @@ jobs:
       - name: Setup Node JS
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ vars.NODE_VERSION || latest }}
+          node-version: ${{ vars.NODE_VERSION || * }}
 
       - name: Install dependencies
         run: |
           echo 'yarn version: $(yarn --version)'
-          yarn set version ${{ vars.YARN_VERSION || "latest" }}
-          echo 'update yarn : ${{ vars.YARN_VERSION || "latest" }}'
+          yarn set version ${{ vars.YARN_VERSION || latest }}
+          echo 'update yarn: ${{ vars.YARN_VERSION || latest }}'
           echo 'updated yarn version: $(yarn --version)'
           yarn
 
