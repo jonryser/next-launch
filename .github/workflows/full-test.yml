@@ -65,10 +65,7 @@ jobs:
           version=$(yarn --version)
           requested_version=${{ vars.YARN_VERSION || 'latest' }}
 
-          if [ "${version}" != "${requested_version}"]
-          then
-            yarn set version ${requested_version}}
-          fi
+          yarn set version ${requested_version}}
 
           echo "::group::Yarn version"
           echo 'initial yarn version: ${version}'
