@@ -14,17 +14,17 @@ jobs:
       env_name: ${{ steps.environment.outputs.name }}
     steps:
       - name: Get target branch
-        run: echo "name=branch" >> ${{ github.event.pull_request.base.ref }}
+        run: echo "name=branch" >> "${{ github.event.pull_request.base.ref }}"
         id: target_branch
 
       - name: Get environment
         run: |
-          env = dev
+          env = "dev"
           if [ "${{ steps.target_branch.outputs.name }}" = "main" ]
           then
             env = prod
           fi
-          echo "name=environment" >> ${env}
+          echo "name=environment" >> "${env}"
         id: environment
 
   test:
