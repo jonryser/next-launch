@@ -14,17 +14,17 @@ jobs:
       env_name: ${{ steps.environment.outputs.name }}
     steps:
       - name: Get target branch
-        run: echo "name=branch" >> "${{ github.event.pull_request.base.ref }}"
+        run: echo "name=branch" >> ${{ github.event.pull_request.base.ref }}
         id: target_branch
 
       - name: Get environment
         run: |
-          env="dev"
+          env=dev
           if [ "${{ steps.target_branch.outputs.name }}" = "main" ]
           then
-            env="prod"
+            env=prod
           fi
-          echo "name=environment" >> "${env}"
+          echo "name=environment" >> ${env}
         id: environment
 
   test:
@@ -47,10 +47,18 @@ jobs:
 
       - name: Install dependencies
         run: |
+          echo "::group::Yarn initial version"
+          echo 'environment: ${{ needs.info.outputs.env_name }}'
           echo 'yarn version: $(yarn --version)'
+          echo "::endgroup::"
+
           yarn set version ${{ vars.YARN_VERSION || 'latest' }}
+
+          echo "::group::Yarn updated version"
           echo 'update yarn: ${{ vars.YARN_VERSION || 'latest' }}'
           echo 'updated yarn version: $(yarn --version)'
+          echo "::endgroup::"
+
           yarn
 
       - name: Lint project
