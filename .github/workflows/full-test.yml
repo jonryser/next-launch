@@ -59,7 +59,7 @@ jobs:
       - name: Install dependencies
         run: |
           echo "::group::Node version"
-          echo 'node versionrequested: ${{ vars.NODE_VERSION || 'latest' }}'
+          echo 'node version requested: ${{ vars.NODE_VERSION || 'latest' }}'
           echo 'node version: '$(node --version)
           echo "::endgroup::"
 
