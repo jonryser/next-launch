@@ -10,8 +10,8 @@ jobs:
     timeout-minutes: 1
     runs-on: ubuntu-latest
     outputs:
-      branch: ${{ steps.target_branch.outputs.name }}
-      env_name: ${{ steps.environment.outputs.name }}
+      branch: ${{ steps.target_branch.outputs.branch }}
+      env_name: ${{ steps.environment.outputs.env_name }}
     steps:
       - name: Get target branch
         run: echo "name=branch" >> ${{ github.event.pull_request.base.ref }}
@@ -24,7 +24,7 @@ jobs:
           then
             env=prod
           fi
-          echo "name=environment" >> ${env}
+          echo "name=env_name" >> ${env}
         id: environment
 
   test:
@@ -49,14 +49,14 @@ jobs:
         run: |
           echo "::group::Yarn initial version"
           echo 'environment: ${{ needs.info.outputs.env_name }}'
-          echo 'yarn version: $(yarn --version)'
+          echo 'yarn version: $(echo yarn --version)'
           echo "::endgroup::"
 
           yarn set version ${{ vars.YARN_VERSION || 'latest' }}
 
           echo "::group::Yarn updated version"
           echo 'update yarn: ${{ vars.YARN_VERSION || 'latest' }}'
-          echo 'updated yarn version: $(yarn --version)'
+          echo 'updated yarn version: $(echo yarn --version)'
           echo "::endgroup::"
 
           yarn
