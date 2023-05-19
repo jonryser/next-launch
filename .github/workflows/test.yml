@@ -38,7 +38,7 @@ jobs:
         id: environment
 
   test:
-    name: Run tests
+    name: Lint and test
     timeout-minutes: 15
     runs-on: ubuntu-latest
     needs: [info]
