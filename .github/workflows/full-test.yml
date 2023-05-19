@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       branch: ${{ steps.target_branch.outputs.branch }}
-      env_name: ${{ steps.environment.outputs.env_name }}
+      env_name: ${{ steps.environment.outputs.name }}
     steps:
       - name: Get target branch
         run: echo "name=branch" >> ${{ github.event.pull_request.base.ref }}
@@ -24,7 +24,7 @@ jobs:
           then
             env=prod
           fi
-          echo "name=env_name" >> ${env}
+          echo "name=name" >> ${env}
         id: environment
 
   test:
